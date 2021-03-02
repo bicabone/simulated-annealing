@@ -1,0 +1,46 @@
+buildscript {
+    ext {
+        springBootVersion = "2.4.0"
+        junitVersion = "5.7.0"
+    }
+}
+
+plugins {
+    id 'java'
+    id "io.freefair.lombok" version "5.3.0"
+    id 'org.springframework.boot' version '2.3.2.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring
+    compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+
+    // Spring data
+    compile "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+    compile "org.springframework.data:spring-data-jpa:${springBootVersion}"
+
+    // Database drivers
+    runtimeOnly 'mysql:mysql-connector-java'
+    runtime 'com.h2database:h2'
+
+    // Testing / junit
+    testCompile "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testImplementation("org.springframework.boot:spring-boot-starter-test:${springBootVersion}") {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
+    // Guava
+    compile 'com.google.guava:guava:30.1-jre'
+}
+
+test {
+    useJUnitPlatform()
+}
