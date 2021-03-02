@@ -1,16 +1,17 @@
 package com.bi.model;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class StopTest {
 
   @Test
   void test() {
-    Assertions.assertEquals(createList(10), createList(10));
+    assertEquals(createList(10), createList(10));
   }
 
   public static Stop create() {

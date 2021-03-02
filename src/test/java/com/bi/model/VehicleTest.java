@@ -1,5 +1,16 @@
 package com.bi.model;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
-class VehicleTest {}
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class VehicleTest {
+  @Test
+  public void test() {
+    assertEquals(create(), create());
+  }
+
+  public static Vehicle create() {
+    return Vehicle.builder().depot(StopTest.create()).id("Vehicle").build();
+  }
+}
