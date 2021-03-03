@@ -16,4 +16,8 @@ import java.util.List;
 public class TspProblem {
   private Vehicle vehicle;
   private List<Stop> stops;
+
+  public TspSolution defaultSolution() {
+    return TspSolution.builder().initial(vehicle.getCoordinate()).stops(stops).build();
+  }
 }

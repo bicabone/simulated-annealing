@@ -19,7 +19,7 @@ public class ExchangeUtils {
    *
    * <p>(1,5,3,4,2,6)
    */
-  static TspSolution swap(TspSolution solution, int i, int j) {
+  public static TspSolution swap(TspSolution solution, int i, int j) {
     Stop[] stops = solution.toArray(new Stop[] {});
     Stop first = stops[i];
     Stop last = stops[j];
@@ -35,7 +35,7 @@ public class ExchangeUtils {
    *
    * <p>(1,5,4,3,2,6)
    */
-  static TspSolution inverse(TspSolution solution, int i, int j) {
+  public static TspSolution inverse(TspSolution solution, int i, int j) {
     List<Stop> copy = new ArrayList<>(solution);
     List<Stop> list = copy.subList(i, j);
     Collections.reverse(list);
@@ -49,7 +49,7 @@ public class ExchangeUtils {
    *
    * <p>(1,3,4,2,5,6)
    */
-  static TspSolution insert(TspSolution solution, int i, int j) {
+  public static TspSolution insert(TspSolution solution, int i, int j) {
     List<Stop> copy = new ArrayList<>(solution);
     Stop remove = copy.remove(i);
     copy.add(j - 1, remove);

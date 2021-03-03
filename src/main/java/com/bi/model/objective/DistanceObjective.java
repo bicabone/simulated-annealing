@@ -1,8 +1,6 @@
 package com.bi.model.objective;
 
-import com.bi.model.distance.DistanceFunction;
 import com.bi.model.distance.HaversineCalculator;
-import com.bi.model.location.Coordinate;
 import com.bi.model.location.Stop;
 import com.bi.model.tsp.TspSolution;
 import lombok.AllArgsConstructor;
