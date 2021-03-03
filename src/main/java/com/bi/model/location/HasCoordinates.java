@@ -1,4 +1,6 @@
-package com.bi.model;
+package com.bi.model.location;
+
+import com.bi.model.distance.DistanceFunction;
 
 public interface HasCoordinates {
 

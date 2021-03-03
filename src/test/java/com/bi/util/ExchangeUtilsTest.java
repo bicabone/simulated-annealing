@@ -1,9 +1,8 @@
-package com.bi.common;
+package com.bi.util;
 
-import com.bi.model.Stop;
-import com.bi.model.TspSolution;
-import com.bi.model.TspSolutionTest;
-import org.junit.jupiter.api.Assertions;
+import com.bi.model.location.Stop;
+import com.bi.model.tsp.TspSolution;
+import com.bi.model.tsp.TspSolutionTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

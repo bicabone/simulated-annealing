@@ -1,4 +1,4 @@
-package com.bi.model;
+package com.bi.model.location;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

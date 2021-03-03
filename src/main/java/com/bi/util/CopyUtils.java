@@ -1,4 +1,4 @@
-package com.bi.common;
+package com.bi.util;
 
 import com.google.gson.Gson;
 
@@ -8,7 +8,7 @@ public class CopyUtils {
 
   private static final Gson GSON = new Gson();
 
-  @SuppressWarnings("all")
+  @SuppressWarnings("unchecked")
   public static <T> T clone(T t) {
     String json = GSON.toJson(t);
     return (T) GSON.fromJson(json, t.getClass());

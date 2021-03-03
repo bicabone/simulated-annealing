@@ -1,10 +1,8 @@
-package com.bi.model;
+package com.bi.model.tsp;
 
-import com.bi.common.CopyUtils;
-import org.junit.jupiter.api.Assertions;
+import com.bi.util.CopyUtils;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
@@ -13,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TspSolutionTest {
 
   @Test
-  void test() {
+ public void test() {
     TspSolution expected = create();
     assertEquals(expected, create());
     assertNotEquals(expected, createRandom());

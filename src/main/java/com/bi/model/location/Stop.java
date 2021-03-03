@@ -1,4 +1,4 @@
-package com.bi.model;
+package com.bi.model.location;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;

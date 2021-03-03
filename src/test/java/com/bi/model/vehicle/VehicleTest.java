@@ -1,10 +1,11 @@
-package com.bi.model;
+package com.bi.model.vehicle;
 
+import com.bi.model.location.StopTest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class VehicleTest {
+public class VehicleTest {
   @Test
   public void test() {
     assertEquals(create(), create());

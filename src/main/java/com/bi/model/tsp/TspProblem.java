@@ -1,5 +1,7 @@
-package com.bi.model;
+package com.bi.model.tsp;
 
+import com.bi.model.vehicle.Vehicle;
+import com.bi.model.location.Stop;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

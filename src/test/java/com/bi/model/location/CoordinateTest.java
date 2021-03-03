@@ -1,5 +1,6 @@
-package com.bi.model;
+package com.bi.model.location;
 
+import com.bi.model.location.Coordinate;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

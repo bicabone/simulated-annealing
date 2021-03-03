@@ -1,7 +1,7 @@
-package com.bi.common;
+package com.bi.util;
 
-import com.bi.model.Stop;
-import com.bi.model.TspSolution;
+import com.bi.model.location.Stop;
+import com.bi.model.tsp.TspSolution;
 
 import java.util.ArrayList;
 import java.util.Arrays;

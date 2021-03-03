@@ -1,7 +1,7 @@
 package com.bi.controller;
 
-import com.bi.model.TspProblem;
-import com.bi.model.TspSolution;
+import com.bi.model.tsp.TspProblem;
+import com.bi.model.tsp.TspSolution;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

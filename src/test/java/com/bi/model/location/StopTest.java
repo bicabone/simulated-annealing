@@ -1,4 +1,4 @@
-package com.bi.model;
+package com.bi.model.location;
 
 import org.junit.jupiter.api.Test;
 
@@ -7,7 +7,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class StopTest {
+public class StopTest {
 
   @Test
   void test() {

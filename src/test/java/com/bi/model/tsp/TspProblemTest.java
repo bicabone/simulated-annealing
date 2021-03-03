@@ -1,5 +1,7 @@
-package com.bi.model;
+package com.bi.model.tsp;
 
+import com.bi.model.vehicle.VehicleTest;
+import com.bi.model.location.StopTest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -7,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TspProblemTest {
 
   @Test
-  void test() {
+  public void test() {
     assertEquals(create(), create());
   }
 

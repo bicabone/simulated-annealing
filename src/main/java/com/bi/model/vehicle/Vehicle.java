@@ -1,5 +1,8 @@
-package com.bi.model;
+package com.bi.model.vehicle;
 
+import com.bi.model.location.Coordinate;
+import com.bi.model.location.HasCoordinates;
+import com.bi.model.location.Stop;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

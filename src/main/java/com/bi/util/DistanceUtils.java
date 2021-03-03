@@ -1,6 +1,6 @@
-package com.bi.common;
+package com.bi.util;
 
-import com.bi.model.Coordinate;
+import com.bi.model.location.Coordinate;
 
 import static java.lang.Math.*;
 
@@ -24,7 +24,7 @@ public class DistanceUtils {
     return 2d * RADIUS_OF_EARTH_METERS * asin(Math.sqrt(a));
   }
 
-  private static double hav(double a, double b) {
-    return .5d - .5d * cos(b - a);
+  private static double hav(double originLonRads, double destLonRads) {
+    return pow(sin((destLonRads - originLonRads) / 2d), 2);
   }
 }
