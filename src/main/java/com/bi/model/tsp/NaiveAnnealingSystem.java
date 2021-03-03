@@ -10,16 +10,12 @@ import org.springframework.data.util.Pair;
 import java.util.Arrays;
 import java.util.Comparator;
 
-
-/**
- * TODO We need to introduce the probability of accepting a solution
- *
- *
- */
+/** TODO We need to introduce the probability of accepting a solution */
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@SuppressWarnings("UnstableApiUsage")
 @EqualsAndHashCode(callSuper = true)
 public class NaiveAnnealingSystem extends SimulatedAnnealingSystem {
 
@@ -28,7 +24,6 @@ public class NaiveAnnealingSystem extends SimulatedAnnealingSystem {
 
   private TspProblem tspProblem;
 
-  @SuppressWarnings("all")
   private final MinMaxPriorityQueue<TspSolution> searches =
       MinMaxPriorityQueue.<TspSolution>orderedBy(
               Comparator.comparingDouble(a -> objectiveFunction.evaluate(a)))
