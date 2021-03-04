@@ -11,7 +11,6 @@ import com.bi.repository.TspRepository;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

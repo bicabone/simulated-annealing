@@ -1,5 +1,6 @@
 package com.bi.model.location;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,8 @@ public class Coordinate implements HasCoordinates {
   private double longitude;
 
   @Override
+  @JsonIgnore
   public Coordinate getCoordinate() {
-    return this;
+    return new Coordinate(latitude, longitude);
   }
 }
