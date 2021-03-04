@@ -6,6 +6,7 @@ import com.bi.model.objective.ObjectiveFunction;
 import com.bi.model.tsp.NaiveAnnealingSystem;
 import com.bi.model.tsp.TspProblem;
 import com.bi.model.tsp.SimulatedAnnealingSystem;
+import com.bi.repository.TspRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,8 @@ import static com.bi.model.annealing.TspParameter.*;
 public class HaversineTspService extends AbstractTspService {
 
   @Autowired
-  public HaversineTspService(DistanceObjective objectiveFunction) {
-    super(objectiveFunction);
+  public HaversineTspService(DistanceObjective objectiveFunction, TspRepository tspRepository) {
+    super(objectiveFunction, tspRepository);
   }
 
   @Override
