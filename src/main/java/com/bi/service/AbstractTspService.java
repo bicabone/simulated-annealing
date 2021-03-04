@@ -8,13 +8,21 @@ import com.bi.model.tsp.TravellingSalesmanProblem;
 import com.bi.model.tsp.TspProblem;
 import com.bi.model.tsp.TspSolution;
 import com.bi.repository.TspRepository;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @Slf4j
 @AllArgsConstructor
 public abstract class AbstractTspService {
+
+  public static final ExecutorService EXECUTOR =
+      Executors.newFixedThreadPool(
+          4, new ThreadFactoryBuilder().setNameFormat("TspWorker-%d").build());
 
   protected final ObjectiveFunction objectiveFunction;
   private final TspRepository repository;
@@ -30,12 +38,11 @@ public abstract class AbstractTspService {
 
   public TravellingSalesmanProblem solve(TspProblem problem, ParameterMap parameterMap) {
     TravellingSalesmanProblem tsp = TravellingSalesmanProblem.builder().problem(problem).build();
-    tsp = repository.save(tsp);
-    solve(problem, parameterMap, tsp);
-    return tsp;
+    TravellingSalesmanProblem persisted = repository.save(tsp);
+    EXECUTOR.submit(() -> solve(problem, parameterMap, persisted));
+    return persisted;
   }
 
-  @Async
   protected void solve(
       TspProblem problem, ParameterMap parameterMap, TravellingSalesmanProblem tsp) {
     log.info("Solving TSP:{}", tsp.getName());
