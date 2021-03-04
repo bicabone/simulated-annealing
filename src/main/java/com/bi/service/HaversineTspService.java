@@ -1,6 +1,5 @@
 package com.bi.service;
 
-import com.bi.model.annealing.AnnealingParameter;
 import com.bi.model.annealing.ParameterMap;
 import com.bi.model.objective.DistanceObjective;
 import com.bi.model.objective.ObjectiveFunction;
@@ -10,10 +9,10 @@ import com.bi.model.tsp.SimulatedAnnealingSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.bi.model.annealing.AnnealingParameter.*;
+import static com.bi.model.annealing.TspParameter.*;
 
 @Service
-public class HaversineTspService extends TspService {
+public class HaversineTspService extends AbstractTspService {
 
   @Autowired
   public HaversineTspService(DistanceObjective objectiveFunction) {

@@ -1,0 +1,16 @@
+---
+spring:
+  application:
+    name: simulated-annealing
+---
+spring:
+  profiles:
+    - local
+  data:
+    mongodb:
+      host: 'localhost'
+      port: 27017
+      database: 'local'
+      username: 'developer'
+      password: 'developer'
+      authentication-database: 'local'

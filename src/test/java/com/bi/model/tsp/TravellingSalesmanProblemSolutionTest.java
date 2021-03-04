@@ -8,7 +8,7 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TspSolutionTest {
+public class TravellingSalesmanProblemSolutionTest {
 
   @Test
  public void test() {

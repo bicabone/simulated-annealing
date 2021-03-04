@@ -13,8 +13,8 @@ import org.springframework.data.util.Pair;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
-import static com.bi.model.annealing.AnnealingParameter.MAX_ITERATION_COUNT;
-import static com.bi.model.annealing.AnnealingParameter.SEARCH_STRENGTH;
+import static com.bi.model.annealing.TspParameter.MAX_ITERATION_COUNT;
+import static com.bi.model.annealing.TspParameter.SEARCH_STRENGTH;
 
 /** TODO We need to introduce the probability of accepting a solution */
 @Data
@@ -65,7 +65,7 @@ public class NaiveAnnealingSystem extends SimulatedAnnealingSystem {
   }
 
   @Override
-  public void evolve() {
+  public TspSolution evolve() {
 
     int operationCount = getOperationCount();
 
@@ -101,6 +101,7 @@ public class NaiveAnnealingSystem extends SimulatedAnnealingSystem {
     }
 
     ++iteration;
+    return CopyUtils.clone(bestSolution);
   }
 
   private void updateBestSolution() {

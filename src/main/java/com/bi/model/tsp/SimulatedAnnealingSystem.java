@@ -21,7 +21,7 @@ public abstract class SimulatedAnnealingSystem implements HasTemperature {
 
   public abstract TspSolution getSolution();
 
-  public abstract void evolve();
+  public abstract TspSolution evolve();
 
   public abstract boolean isComplete();
 

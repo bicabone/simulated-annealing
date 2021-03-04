@@ -1,6 +1,5 @@
 package com.bi.util;
 
-import com.bi.model.distance.HaversineCalculator;
 import com.bi.model.objective.DistanceObjective;
 import com.bi.model.objective.DistanceObjectiveTest;
 import com.bi.model.tsp.TspProblem;
