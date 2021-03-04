@@ -22,17 +22,16 @@ class HaversineTspServiceTest {
 
   @Test
   void testSystemDoesTerminate() {
-    TspProblem tspProblem = TspProblemTest.create();
+    TspProblem tspProblem = TspProblemTest.create(100);
     TspSolution solution =
         haversineTspService.solve(
             tspProblem,
             ParameterMap.create(
-                AnnealingParameter.MAX_ITERATION_COUNT, 100,
-                AnnealingParameter.SEARCH_STRENGTH, 20));
+                AnnealingParameter.MAX_ITERATION_COUNT, 500,
+                AnnealingParameter.SEARCH_STRENGTH, 50));
 
     TspSolution defaultSolution = tspProblem.defaultSolution().evaluate(distanceObjective);
 
-    Assertions.assertTrue(
-        distanceObjective.evaluate(defaultSolution) > distanceObjective.evaluate(solution));
+    Assertions.assertTrue(solution.getScore() < defaultSolution.getScore());
   }
 }

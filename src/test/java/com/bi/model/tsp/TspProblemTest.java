@@ -14,8 +14,12 @@ public class TspProblemTest {
   }
 
   public static TspProblem create() {
+    return create(20);
+  }
+
+  public static TspProblem create(int count) {
     return TspProblem.builder()
-        .stops(StopTest.createList(20))
+        .stops(StopTest.createList(count))
         .vehicle(VehicleTest.create())
         .build();
   }

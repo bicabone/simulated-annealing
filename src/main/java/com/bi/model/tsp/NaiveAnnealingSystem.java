@@ -104,7 +104,9 @@ public class NaiveAnnealingSystem extends SimulatedAnnealingSystem {
   }
 
   private void updateBestSolution() {
-    if (currentSolution.getScore() < bestSolution.getScore()) {
+    Double thisScore = currentSolution.getScore();
+    Double bestScore = bestSolution.getScore();
+    if (thisScore < bestScore) {
       bestSolution = currentSolution;
     }
   }
