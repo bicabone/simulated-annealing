@@ -19,11 +19,18 @@ import java.util.UUID;
 @NoArgsConstructor
 @Document
 public class TravellingSalesmanProblem {
+
   @Id private String id;
+
   @Builder.Default private String name = UUID.randomUUID().toString();
-  private ZonedDateTime creationTime = ZonedDateTime.now();
+
+  @Builder.Default private ZonedDateTime creationTime = ZonedDateTime.now();
+
   private ParameterMap parameterMap;
+
   private TspProblem problem;
+
   private TspSolution solution;
+
   @Builder.Default private List<TspSolution> history = new ArrayList<>();
 }
