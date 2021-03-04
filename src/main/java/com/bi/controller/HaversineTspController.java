@@ -20,7 +20,8 @@ public class HaversineTspController {
   private final TspRepository tspRepository;
 
   @PostMapping("/solve")
-  public String post(@RequestBody TspProblem problem, @RequestParam("history") boolean history) {
+  public String post(
+      @RequestBody TspProblem problem, @RequestParam(required = false) boolean history) {
     log.info("Incoming tsp: {}", problem);
     ParameterMap parameterMap =
         ParameterMap.builder().put(TspParameter.STORE_HISTORY, history).build();
