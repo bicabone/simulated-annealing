@@ -1,5 +1,7 @@
 package com.bi.controller;
 
+import com.bi.model.annealing.ParameterMap;
+import com.bi.model.annealing.TspParameter;
 import com.bi.model.tsp.TravellingSalesmanProblem;
 import com.bi.model.tsp.TspProblem;
 import com.bi.repository.TspRepository;
@@ -18,9 +20,11 @@ public class HaversineTspController {
   private final TspRepository tspRepository;
 
   @PostMapping("/solve")
-  public String post(@RequestBody TspProblem problem) {
+  public String post(@RequestBody TspProblem problem, @RequestParam("history") boolean history) {
     log.info("Incoming tsp: {}", problem);
-    TravellingSalesmanProblem solve = tspService.solve(problem);
+    ParameterMap parameterMap =
+        ParameterMap.builder().put(TspParameter.STORE_HISTORY, history).build();
+    TravellingSalesmanProblem solve = tspService.solve(problem, parameterMap);
     return solve.getId();
   }
 

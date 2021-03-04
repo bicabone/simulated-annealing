@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 @Slf4j
 @AllArgsConstructor
@@ -31,18 +32,24 @@ public abstract class AbstractTspService {
 
   abstract ParameterMap getDefaultParameters();
 
-  public TravellingSalesmanProblem solve(TspProblem problem) {
-    return solve(problem, getDefaultParameters());
-  }
-
   public TravellingSalesmanProblem solve(TspProblem problem, ParameterMap parameterMap) {
-    TravellingSalesmanProblem tsp = TravellingSalesmanProblem.builder().problem(problem).build();
-    TravellingSalesmanProblem persisted = repository.save(tsp);
-    EXECUTOR.submit(() -> solve(problem, parameterMap, persisted));
-    return persisted;
+    TravellingSalesmanProblem tsp = createTsp(problem, parameterMap);
+    execute(tsp);
+    return tsp;
   }
 
-  protected void solve(
+  TravellingSalesmanProblem createTsp(TspProblem problem, ParameterMap parameterMap) {
+    getDefaultParameters().forEach(parameterMap::putIfAbsent);
+    TravellingSalesmanProblem tsp =
+        TravellingSalesmanProblem.builder().parameterMap(parameterMap).problem(problem).build();
+    return repository.save(tsp);
+  }
+
+  Future<TravellingSalesmanProblem> execute(TravellingSalesmanProblem tsp) {
+    return EXECUTOR.submit(() -> solve(tsp.getProblem(), tsp.getParameterMap(), tsp));
+  }
+
+  protected TravellingSalesmanProblem solve(
       TspProblem problem, ParameterMap parameterMap, TravellingSalesmanProblem tsp) {
     log.info("Solving TSP:{}", tsp.getName());
 
@@ -66,5 +73,7 @@ public abstract class AbstractTspService {
 
     tsp = repository.save(tsp);
     log.info("Finished solving TSP: {}, id: {}", tsp.getName(), tsp.getId());
+
+    return tsp;
   }
 }

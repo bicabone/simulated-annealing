@@ -1,5 +1,6 @@
 package com.bi.model.tsp;
 
+import com.bi.model.annealing.ParameterMap;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,7 @@ import java.util.UUID;
 public class TravellingSalesmanProblem {
   @Id private String id;
   @Builder.Default private String name = UUID.randomUUID().toString();
+  private ParameterMap parameterMap;
   private TspProblem problem;
   private TspSolution solution;
   @Builder.Default private List<TspSolution> history = new ArrayList<>();

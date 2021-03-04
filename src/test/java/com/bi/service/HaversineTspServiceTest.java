@@ -20,6 +20,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
@@ -38,13 +40,13 @@ class HaversineTspServiceTest {
       new HaversineTspService(distanceObjective, tspRepository);
 
   @Test
-  void testSystemDoesTerminate() {
+  void testSystemDoesTerminate() throws ExecutionException, InterruptedException {
 
     Mockito.doAnswer(returnsFirstArg()).when(tspRepository).save(any());
 
     TspProblem tspProblem = TspProblemTest.create(50);
     TravellingSalesmanProblem tsp =
-        haversineTspService.solve(
+        haversineTspService.createTsp(
             tspProblem,
             ParameterMap.create(
                 TspParameter.MAX_ITERATION_COUNT,
@@ -53,6 +55,10 @@ class HaversineTspServiceTest {
                 20,
                 TspParameter.STORE_HISTORY,
                 true));
+
+    Future<TravellingSalesmanProblem> execute = haversineTspService.execute(tsp);
+
+    tsp = execute.get();
 
     TspSolution defaultSolution = tspProblem.defaultSolution().evaluate(distanceObjective);
 
