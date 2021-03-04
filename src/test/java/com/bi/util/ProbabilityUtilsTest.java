@@ -1,14 +1,45 @@
 package com.bi.util;
 
+import com.bi.model.distance.HaversineCalculator;
+import com.bi.model.objective.DistanceObjective;
+import com.bi.model.objective.DistanceObjectiveTest;
+import com.bi.model.tsp.TspProblem;
+import com.bi.model.tsp.TspProblemTest;
+import com.bi.model.tsp.TspSolution;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ProbabilityUtilsTest {
+
+  @Test
+  public void testAnnealingAcceptance() {
+
+    TspProblem tspProblem = TspProblemTest.create();
+
+    TspSolution tspSolution = tspProblem.defaultSolution();
+    TspSolution clonedSolution = CopyUtils.clone(tspSolution);
+    Collections.shuffle(clonedSolution.getStops(), new Random(42));
+
+    DistanceObjective testObjective = DistanceObjectiveTest.createTestObjective();
+    clonedSolution.evaluate(testObjective);
+
+    double probability1 =
+        ProbabilityUtils.annealingAcceptanceProbability(
+            testObjective, tspSolution, clonedSolution, clonedSolution.getScore());
+
+    double probability2 =
+        ProbabilityUtils.annealingAcceptanceProbability(
+            testObjective, clonedSolution, tspSolution, clonedSolution.getScore());
+
+    assertEquals(1, probability1);
+    assertTrue(0.86 < probability2 && probability2 < 0.87);
+  }
 
   @Test
   public void testExponentialDistribution() {

@@ -3,10 +3,11 @@ package com.bi.model.tsp;
 import com.bi.model.location.Coordinate;
 import com.bi.model.location.Stop;
 import com.bi.model.objective.ObjectiveFunction;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -28,7 +29,7 @@ public class TspSolution {
   }
 
   public TspSolution evaluate(ObjectiveFunction objectiveFunction) {
-    if (score == null) {
+    if (this.score == null) {
       this.score = objectiveFunction.evaluate(this);
     }
     return this;

@@ -21,10 +21,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-class DistanceObjectiveTest {
+public class DistanceObjectiveTest {
 
   @Mock HaversineCalculator haversineCalculator;
   @InjectMocks DistanceObjective distanceObjective;
+
+  public static DistanceObjective createTestObjective() {
+    return new DistanceObjective(new HaversineCalculator());
+  }
 
   @Test
   public void testEvaluate() {

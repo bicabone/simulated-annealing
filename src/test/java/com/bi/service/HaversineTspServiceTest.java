@@ -30,7 +30,7 @@ class HaversineTspServiceTest {
                 AnnealingParameter.MAX_ITERATION_COUNT, 100,
                 AnnealingParameter.SEARCH_STRENGTH, 20));
 
-    TspSolution defaultSolution = tspProblem.defaultSolution();
+    TspSolution defaultSolution = tspProblem.defaultSolution().evaluate(distanceObjective);
 
     Assertions.assertTrue(
         distanceObjective.evaluate(defaultSolution) > distanceObjective.evaluate(solution));

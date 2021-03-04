@@ -4,33 +4,28 @@ import com.bi.model.annealing.ParameterMap;
 import com.bi.model.objective.ObjectiveFunction;
 import com.bi.util.CopyUtils;
 import com.bi.util.ExchangeUtils;
+import com.bi.util.ProbabilityUtils;
 import com.bi.util.RandomUtils;
-import com.google.common.collect.MinMaxPriorityQueue;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.util.Pair;
 
-import java.util.Arrays;
 import java.util.Comparator;
+import java.util.stream.Stream;
 
 import static com.bi.model.annealing.AnnealingParameter.MAX_ITERATION_COUNT;
 import static com.bi.model.annealing.AnnealingParameter.SEARCH_STRENGTH;
 
 /** TODO We need to introduce the probability of accepting a solution */
-@SuppressWarnings("UnstableApiUsage")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class NaiveAnnealingSystem extends SimulatedAnnealingSystem {
 
   private final ParameterMap parameters = new ParameterMap();
 
-  private final MinMaxPriorityQueue<TspSolution> searches =
-      MinMaxPriorityQueue.<TspSolution>orderedBy(
-              Comparator.comparingDouble(a -> objectiveFunction.evaluate(a)))
-          .maximumSize(1000)
-          .create();
-
   private int iteration = 0;
+
+  private double lastAcceptance = 0.5d;
 
   private TspSolution bestSolution;
   private TspSolution currentSolution;
@@ -50,58 +45,84 @@ public class NaiveAnnealingSystem extends SimulatedAnnealingSystem {
 
   @Override
   public double getTemperature() {
-    double searchStrength = getParameters().getDouble(SEARCH_STRENGTH);
-    return Math.exp(-1 * ++iteration / Math.pow(searchStrength, 2));
+
+    if (iteration == 0) return bestSolution.getScore();
+
+    double delta = currentSolution.getScore() - bestSolution.getScore();
+
+    if (delta == 0) return currentSolution.getScore() / iteration;
+
+    return Math.abs(
+        delta
+            / Math.log(
+                ProbabilityUtils.annealingAcceptanceProbability(
+                    objectiveFunction, bestSolution, currentSolution, lastAcceptance)));
   }
 
   @Override
   public TspSolution getSolution() {
-    return searches.peekFirst();
+    return bestSolution;
   }
 
   @Override
   public void evolve() {
 
-    if (searches.isEmpty()) {
-      searches.add(tspProblem.defaultSolution());
-    }
-
     int operationCount = getOperationCount();
+
+    if (bestSolution.getScore() < currentSolution.getScore()) {
+      currentSolution = bestSolution;
+    }
 
     while (operationCount-- > 0) {
 
-      /*
-      TODO don't always get the head; instead sample from an exponential distribution
-          and round down to the nearest non-negative int, then get that index from the search heap
-          (unless it is larger than the length-1 of the heap, then get the last element).
-          Let the shape of the exp dist be governed by the temp such that as the temp goes
-          to 0, the index will tend towards the head.
-          Either accept the chosen sample (non-head) or the head based on a probability given
-      */
-      TspSolution solution = getSolution();
+      TspSolution cursor = CopyUtils.clone(currentSolution);
 
       Pair<Integer, Integer> indices = RandomUtils.getPair(tspProblem.getStops().size() - 1);
 
-      int first = indices.getFirst();
-      int second = indices.getSecond();
+      int i = indices.getFirst();
+      int j = indices.getSecond();
 
-      TspSolution insert = ExchangeUtils.insert(solution, first, second);
-      TspSolution swap = ExchangeUtils.swap(solution, first, second);
-      TspSolution inverse = ExchangeUtils.inverse(solution, first, second);
+      TspSolution insert = ExchangeUtils.insert(cursor, i, j).evaluate(objectiveFunction);
 
-      searches.addAll(Arrays.asList(insert, swap, inverse));
+      TspSolution swap = ExchangeUtils.swap(cursor, i, j).evaluate(objectiveFunction);
+
+      TspSolution inverse = ExchangeUtils.inverse(cursor, i, j).evaluate(objectiveFunction);
+
+      TspSolution tspSolution =
+          Stream.of(insert, swap, inverse)
+              .min(Comparator.comparingDouble(TspSolution::getScore))
+              .orElseThrow(IllegalStateException::new);
+
+      if (acceptSolution(tspSolution)) {
+        currentSolution = tspSolution;
+      }
+
+      updateBestSolution();
+    }
+
+    ++iteration;
+  }
+
+  private void updateBestSolution() {
+    if (currentSolution.getScore() < bestSolution.getScore()) {
+      bestSolution = currentSolution;
     }
   }
 
+  boolean acceptSolution(TspSolution solution) {
+    double probabilityOfAcceptance = acceptSolution(currentSolution, solution);
+    boolean bernoulli = ProbabilityUtils.bernoulli(probabilityOfAcceptance);
+    if (bernoulli) this.lastAcceptance = probabilityOfAcceptance;
+    return bernoulli;
+  }
+
   private int getOperationCount() {
-    double searchStrength = getParameters().getDouble(SEARCH_STRENGTH);
-    return (int) (getTemperature() * searchStrength);
+    return getParameters().getInteger(SEARCH_STRENGTH);
   }
 
   @Override
   public boolean isComplete() {
-    int maxIterationCount = getParameters().getInteger(MAX_ITERATION_COUNT);
-    return getOperationCount() == 0 || getIteration() > maxIterationCount;
+    return getIteration() > getParameters().getInteger(MAX_ITERATION_COUNT);
   }
 
   @Override
