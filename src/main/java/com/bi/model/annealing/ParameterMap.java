@@ -18,7 +18,7 @@ public class ParameterMap extends EnumMap<TspParameter, Object> {
     private final ParameterMap parameterMap = new ParameterMap();
 
     public Builder put(TspParameter parameter, Object value) {
-      parameterMap.put(parameter, value);
+      if (value != null) parameterMap.put(parameter, value);
       return this;
     }
 

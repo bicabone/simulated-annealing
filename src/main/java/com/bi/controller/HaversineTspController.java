@@ -21,10 +21,17 @@ public class HaversineTspController {
 
   @PostMapping("/solve")
   public String post(
-      @RequestBody TspProblem problem, @RequestParam(required = false) boolean history) {
+      @RequestBody TspProblem problem,
+      @RequestParam(required = false) Boolean history,
+      @RequestParam(required = false) Integer searchStrength,
+      @RequestParam(required = false) Integer maxIterationCount) {
     log.info("Incoming tsp: {}", problem);
     ParameterMap parameterMap =
-        ParameterMap.builder().put(TspParameter.STORE_HISTORY, history).build();
+        ParameterMap.builder()
+            .put(TspParameter.STORE_HISTORY, history)
+            .put(TspParameter.SEARCH_STRENGTH, searchStrength)
+            .put(TspParameter.MAX_ITERATION_COUNT, maxIterationCount)
+            .build();
     TravellingSalesmanProblem solve = tspService.solve(problem, parameterMap);
     return solve.getId();
   }

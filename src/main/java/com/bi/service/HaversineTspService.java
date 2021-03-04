@@ -35,7 +35,7 @@ public class HaversineTspService extends AbstractTspService {
     return ParameterMap.builder()
         .put(SEARCH_STRENGTH, 100)
         .put(MAX_ITERATION_COUNT, 1000)
-        .put(STORE_HISTORY, true)
+        .put(STORE_HISTORY, false)
         .build();
   }
 }

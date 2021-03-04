@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum TspParameter {
-
   MAX_ITERATION_COUNT(SimulatedAnnealingSystem.class),
   SEARCH_STRENGTH(NaiveAnnealingSystem.class),
   STORE_HISTORY(SimulatedAnnealingSystem.class);

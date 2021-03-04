@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -20,6 +21,7 @@ import java.util.UUID;
 public class TravellingSalesmanProblem {
   @Id private String id;
   @Builder.Default private String name = UUID.randomUUID().toString();
+  private ZonedDateTime creationTime = ZonedDateTime.now();
   private ParameterMap parameterMap;
   private TspProblem problem;
   private TspSolution solution;
