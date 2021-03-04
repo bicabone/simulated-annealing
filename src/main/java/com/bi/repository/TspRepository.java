@@ -14,4 +14,8 @@ public class TspRepository {
   public TravellingSalesmanProblem save(TravellingSalesmanProblem problem) {
     return mongo.save(problem);
   }
+
+  public TravellingSalesmanProblem get(String id) {
+    return mongo.findById(id, TravellingSalesmanProblem.class);
+  }
 }

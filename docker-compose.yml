@@ -11,3 +11,9 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: hackerman
+    command: [--auth]
+    volumes:
+      - mongodbdata:/data/db
+
+volumes:
+  mongodbdata:

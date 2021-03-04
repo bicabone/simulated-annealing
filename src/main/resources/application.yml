@@ -10,7 +10,7 @@ spring:
     mongodb:
       host: 'localhost'
       port: 27017
-      database: 'local'
+      database: 'local-dev'
       username: 'developer'
       password: 'developer'
-      authentication-database: 'local'
+      authentication-database: 'admin'

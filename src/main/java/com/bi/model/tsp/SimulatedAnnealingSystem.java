@@ -27,8 +27,8 @@ public abstract class SimulatedAnnealingSystem implements HasTemperature {
 
   public abstract ParameterMap getParameters();
 
-  public double acceptSolution(TspSolution current, TspSolution candidate) {
+  protected double acceptSolution(TspSolution current, TspSolution candidate) {
     return ProbabilityUtils.annealingAcceptanceProbability(
-            getObjectiveFunction(), current, candidate, getTemperature());
+        getObjectiveFunction(), current, candidate, getTemperature());
   }
 }

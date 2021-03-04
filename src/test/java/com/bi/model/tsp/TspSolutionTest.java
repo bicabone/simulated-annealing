@@ -8,10 +8,10 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TravellingSalesmanProblemSolutionTest {
+public class TspSolutionTest {
 
   @Test
- public void test() {
+  public void test() {
     TspSolution expected = create();
     assertEquals(expected, create());
     assertNotEquals(expected, createRandom());

@@ -3,13 +3,14 @@ package com.bi.service;
 import com.bi.model.annealing.ParameterMap;
 import com.bi.model.annealing.TspParameter;
 import com.bi.model.objective.ObjectiveFunction;
+import com.bi.model.tsp.SimulatedAnnealingSystem;
 import com.bi.model.tsp.TravellingSalesmanProblem;
 import com.bi.model.tsp.TspProblem;
 import com.bi.model.tsp.TspSolution;
-import com.bi.model.tsp.SimulatedAnnealingSystem;
 import com.bi.repository.TspRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 
 @Slf4j
 @AllArgsConstructor
@@ -21,9 +22,22 @@ public abstract class AbstractTspService {
   protected abstract SimulatedAnnealingSystem createSystem(
       TspProblem problem, ObjectiveFunction objectiveFunction, ParameterMap parameterMap);
 
+  abstract ParameterMap getDefaultParameters();
+
+  public TravellingSalesmanProblem solve(TspProblem problem) {
+    return solve(problem, getDefaultParameters());
+  }
+
   public TravellingSalesmanProblem solve(TspProblem problem, ParameterMap parameterMap) {
     TravellingSalesmanProblem tsp = TravellingSalesmanProblem.builder().problem(problem).build();
+    tsp = repository.save(tsp);
+    solve(problem, parameterMap, tsp);
+    return tsp;
+  }
 
+  @Async
+  protected void solve(
+      TspProblem problem, ParameterMap parameterMap, TravellingSalesmanProblem tsp) {
     log.info("Solving TSP:{}", tsp.getName());
 
     // Create TSP system
@@ -44,10 +58,7 @@ public abstract class AbstractTspService {
     TspSolution solution = simulatedAnnealingSystem.getSolution();
     tsp.setSolution(solution);
 
-    TravellingSalesmanProblem persisted = repository.save(tsp);
-
-    log.info("Finished solving TSP: {}, id: {}", persisted.getName(), persisted.getId());
-
-    return persisted;
+    tsp = repository.save(tsp);
+    log.info("Finished solving TSP: {}, id: {}", tsp.getName(), tsp.getId());
   }
 }

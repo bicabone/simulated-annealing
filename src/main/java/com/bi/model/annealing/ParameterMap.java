@@ -1,5 +1,7 @@
 package com.bi.model.annealing;
 
+import lombok.NoArgsConstructor;
+
 import java.util.EnumMap;
 
 public class ParameterMap extends EnumMap<TspParameter, Object> {
@@ -7,12 +9,30 @@ public class ParameterMap extends EnumMap<TspParameter, Object> {
     super(TspParameter.class);
   }
 
-  public static ParameterMap create(Object... entries) {
-    ParameterMap parameterMap = new ParameterMap();
-    for (int i = 0; i < entries.length; i += 2) {
-      parameterMap.put((TspParameter) entries[i], entries[i + 1]);
+  public static Builder builder() {
+    return new ParameterMap.Builder();
+  }
+
+  @NoArgsConstructor
+  public static class Builder {
+    private final ParameterMap parameterMap = new ParameterMap();
+
+    public Builder put(TspParameter parameter, Object value) {
+      parameterMap.put(parameter, value);
+      return this;
     }
-    return parameterMap;
+
+    public ParameterMap build() {
+      return parameterMap;
+    }
+  }
+
+  public static ParameterMap create(Object... entries) {
+    Builder builder = ParameterMap.builder();
+    for (int i = 0; i < entries.length; i += 2) {
+      builder.put((TspParameter) entries[i], entries[i + 1]);
+    }
+    return builder.build();
   }
 
   public Double getDouble(TspParameter parameter) {

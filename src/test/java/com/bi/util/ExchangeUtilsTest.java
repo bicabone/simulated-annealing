@@ -2,7 +2,7 @@ package com.bi.util;
 
 import com.bi.model.location.Stop;
 import com.bi.model.tsp.TspSolution;
-import com.bi.model.tsp.TravellingSalesmanProblemSolutionTest;
+import com.bi.model.tsp.TspSolutionTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public class ExchangeUtilsTest {
 
   @Test
   public void swap() {
-    TspSolution solution = TravellingSalesmanProblemSolutionTest.create();
+    TspSolution solution = TspSolutionTest.create();
     TspSolution swapped = ExchangeUtils.swap(solution, 1, 4);
     // Swapped
     assertEquals(solution.getStops().get(4), swapped.getStops().get(1));
@@ -29,7 +29,7 @@ public class ExchangeUtilsTest {
 
   @Test
   void inverse() {
-    TspSolution solution = TravellingSalesmanProblemSolutionTest.create();
+    TspSolution solution = TspSolutionTest.create();
     TspSolution inverted = ExchangeUtils.inverse(solution, 3, 8);
     List<Stop> stops = inverted.getStops().subList(3, 8);
     ArrayList<Stop> expected = new ArrayList<>(solution.getStops().subList(3, 8));
@@ -42,7 +42,7 @@ public class ExchangeUtilsTest {
   @Test
   void insert() {
 
-    TspSolution solution = TravellingSalesmanProblemSolutionTest.create();
+    TspSolution solution = TspSolutionTest.create();
     TspSolution insert = ExchangeUtils.insert(solution, 1, 4);
     List<Stop> stops1 = solution.getStops();
     List<Stop> stops2 = insert.getStops();
