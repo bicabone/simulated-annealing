@@ -2,22 +2,35 @@ package com.bi.model.tsp;
 
 import com.bi.model.location.Coordinate;
 import com.bi.model.location.Stop;
+import com.bi.model.objective.ObjectiveFunction;
 import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class TspSolution extends ArrayList<Stop> {
+public class TspSolution {
 
   private Coordinate initial;
 
+  private List<Stop> stops;
+
+  private Double score = null;
+
   @Builder
-  public TspSolution(Collection<? extends Stop> stops, Coordinate initial) {
-    super(stops);
+  public TspSolution(List<Stop> stops, Coordinate initial) {
+    this.stops = stops;
     this.initial = initial;
+  }
+
+  public TspSolution evaluate(ObjectiveFunction objectiveFunction) {
+    if (score == null) {
+      this.score = objectiveFunction.evaluate(this);
+    }
+    return this;
   }
 }

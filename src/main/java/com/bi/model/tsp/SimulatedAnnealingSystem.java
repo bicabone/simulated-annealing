@@ -1,6 +1,7 @@
 package com.bi.model.tsp;
 
 import com.bi.model.annealing.HasTemperature;
+import com.bi.model.annealing.ParameterMap;
 import com.bi.model.objective.ObjectiveFunction;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,4 +23,6 @@ public abstract class SimulatedAnnealingSystem implements HasTemperature {
   public abstract void evolve();
 
   public abstract boolean isComplete();
+
+  public abstract ParameterMap getParameters();
 }

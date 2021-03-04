@@ -1,28 +1,28 @@
 package com.bi.model.tsp;
 
+import com.bi.model.annealing.ParameterMap;
+import com.bi.model.objective.ObjectiveFunction;
+import com.bi.util.CopyUtils;
 import com.bi.util.ExchangeUtils;
 import com.bi.util.RandomUtils;
 import com.google.common.collect.MinMaxPriorityQueue;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.util.Pair;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
+import static com.bi.model.annealing.AnnealingParameter.MAX_ITERATION_COUNT;
+import static com.bi.model.annealing.AnnealingParameter.SEARCH_STRENGTH;
+
 /** TODO We need to introduce the probability of accepting a solution */
 @SuppressWarnings("UnstableApiUsage")
 @Data
-@SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class NaiveAnnealingSystem extends SimulatedAnnealingSystem {
 
-  private static final double SEARCH_STRENGTH = 100;
-  private static final int MAX_ITERATION_COUNT = 1_000;
-
-  private TspProblem tspProblem;
+  private final ParameterMap parameters = new ParameterMap();
 
   private final MinMaxPriorityQueue<TspSolution> searches =
       MinMaxPriorityQueue.<TspSolution>orderedBy(
@@ -30,11 +30,28 @@ public class NaiveAnnealingSystem extends SimulatedAnnealingSystem {
           .maximumSize(1000)
           .create();
 
-  @Builder.Default private int iteration = 0;
+  private int iteration = 0;
+
+  private TspSolution bestSolution;
+  private TspSolution currentSolution;
+
+  public NaiveAnnealingSystem(
+      TspProblem tspProblem,
+      ObjectiveFunction objectiveFunction,
+      double searchStrength,
+      int maxIterationCount) {
+    super(tspProblem, objectiveFunction);
+    TspSolution solution = tspProblem.defaultSolution();
+    bestSolution = CopyUtils.clone(solution).evaluate(objectiveFunction);
+    currentSolution = CopyUtils.clone(solution).evaluate(objectiveFunction);
+    this.parameters.put(MAX_ITERATION_COUNT, maxIterationCount);
+    this.parameters.put(SEARCH_STRENGTH, searchStrength);
+  }
 
   @Override
   public double getTemperature() {
-    return Math.exp(-1 * ++iteration / Math.pow(SEARCH_STRENGTH, 2));
+    double searchStrength = getParameters().getDouble(SEARCH_STRENGTH);
+    return Math.exp(-1 * ++iteration / Math.pow(searchStrength, 2));
   }
 
   @Override
@@ -77,11 +94,18 @@ public class NaiveAnnealingSystem extends SimulatedAnnealingSystem {
   }
 
   private int getOperationCount() {
-    return (int) (getTemperature() * SEARCH_STRENGTH);
+    double searchStrength = getParameters().getDouble(SEARCH_STRENGTH);
+    return (int) (getTemperature() * searchStrength);
   }
 
   @Override
   public boolean isComplete() {
-    return getOperationCount() == 0 || getIteration() > MAX_ITERATION_COUNT;
+    int maxIterationCount = getParameters().getInteger(MAX_ITERATION_COUNT);
+    return getOperationCount() == 0 || getIteration() > maxIterationCount;
+  }
+
+  @Override
+  public ParameterMap getParameters() {
+    return parameters;
   }
 }

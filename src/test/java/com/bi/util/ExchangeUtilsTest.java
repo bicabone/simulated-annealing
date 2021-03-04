@@ -18,25 +18,25 @@ public class ExchangeUtilsTest {
     TspSolution solution = TspSolutionTest.create();
     TspSolution swapped = ExchangeUtils.swap(solution, 1, 4);
     // Swapped
-    assertEquals(solution.get(4), swapped.get(1));
-    assertEquals(solution.get(1), swapped.get(4));
+    assertEquals(solution.getStops().get(4), swapped.getStops().get(1));
+    assertEquals(solution.getStops().get(1), swapped.getStops().get(4));
     // Not swapped
-    assertEquals(solution.get(0), swapped.get(0));
-    assertEquals(solution.get(2), swapped.get(2));
-    assertEquals(solution.get(3), swapped.get(3));
-    assertEquals(solution.get(5), swapped.get(5));
+    assertEquals(solution.getStops().get(0), swapped.getStops().get(0));
+    assertEquals(solution.getStops().get(2), swapped.getStops().get(2));
+    assertEquals(solution.getStops().get(3), swapped.getStops().get(3));
+    assertEquals(solution.getStops().get(5), swapped.getStops().get(5));
   }
 
   @Test
   void inverse() {
     TspSolution solution = TspSolutionTest.create();
     TspSolution inverted = ExchangeUtils.inverse(solution, 3, 8);
-    List<Stop> stops = inverted.subList(3, 8);
-    ArrayList<Stop> expected = new ArrayList<>(solution.subList(3, 8));
+    List<Stop> stops = inverted.getStops().subList(3, 8);
+    ArrayList<Stop> expected = new ArrayList<>(solution.getStops().subList(3, 8));
     Collections.reverse(expected);
     assertEquals(expected, stops);
-    assertEquals(solution.subList(0, 2), inverted.subList(0, 2));
-    assertEquals(solution.subList(9, 20), inverted.subList(9, 20));
+    assertEquals(solution.getStops().subList(0, 2), inverted.getStops().subList(0, 2));
+    assertEquals(solution.getStops().subList(9, 20), inverted.getStops().subList(9, 20));
   }
 
   @Test
@@ -44,10 +44,12 @@ public class ExchangeUtilsTest {
 
     TspSolution solution = TspSolutionTest.create();
     TspSolution insert = ExchangeUtils.insert(solution, 1, 4);
-    assertEquals(solution.get(0), insert.get(0));
-    assertEquals(solution.get(2), insert.get(1));
-    assertEquals(solution.get(3), insert.get(2));
-    assertEquals(solution.get(1), insert.get(3));
-    assertEquals(solution.get(4), insert.get(4));
+    List<Stop> stops1 = solution.getStops();
+    List<Stop> stops2 = insert.getStops();
+    assertEquals(stops1.get(0), stops2.get(0));
+    assertEquals(stops1.get(2), stops2.get(1));
+    assertEquals(stops1.get(3), stops2.get(2));
+    assertEquals(stops1.get(1), stops2.get(3));
+    assertEquals(stops1.get(4), stops2.get(4));
   }
 }

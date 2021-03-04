@@ -18,7 +18,7 @@ public class DistanceObjective implements ObjectiveFunction {
   public double evaluate(TspSolution solution) {
 
     double sum = 0d;
-    Iterator<Stop> it = solution.iterator();
+    Iterator<Stop> it = solution.getStops().iterator();
 
     if (!it.hasNext()) return sum;
 
