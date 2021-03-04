@@ -11,7 +11,7 @@ public class TspRepository {
 
   private final MongoTemplate mongo;
 
-  private void save(TravellingSalesmanProblem problem) {
-    mongo.save(problem);
+  public TravellingSalesmanProblem save(TravellingSalesmanProblem problem) {
+    return mongo.save(problem);
   }
 }
