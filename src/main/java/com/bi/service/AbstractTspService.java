@@ -68,12 +68,19 @@ public abstract class AbstractTspService {
     }
 
     // Return the best solution from the system
-    TspSolution solution = simulatedAnnealingSystem.getSolution();
-    tsp.setSolution(solution);
+    tsp = store(tsp, simulatedAnnealingSystem);
 
-    tsp = repository.save(tsp);
     log.info("Finished solving TSP: {}, id: {}", tsp.getName(), tsp.getId());
 
+    return tsp;
+  }
+
+  private TravellingSalesmanProblem store(
+      TravellingSalesmanProblem tsp, SimulatedAnnealingSystem simulatedAnnealingSystem) {
+    TspSolution solution = simulatedAnnealingSystem.getSolution();
+    tsp.setSolution(solution);
+    tsp.setComplete(true);
+    tsp = repository.save(tsp);
     return tsp;
   }
 }

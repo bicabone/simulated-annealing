@@ -32,5 +32,7 @@ public class TravellingSalesmanProblem {
 
   private TspSolution solution;
 
+  @Builder.Default private boolean complete = false;
+
   @Builder.Default private List<TspSolution> history = new ArrayList<>();
 }
