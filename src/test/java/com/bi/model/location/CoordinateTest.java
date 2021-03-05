@@ -1,11 +1,15 @@
 package com.bi.model.location;
 
 import com.bi.model.location.Coordinate;
+import com.bi.model.tsp.TspProblem;
+import com.bi.model.vehicle.Vehicle;
 import org.junit.jupiter.api.Test;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -30,9 +34,13 @@ public class CoordinateTest {
   }
 
   public static List<Coordinate> createList(int count, double range) {
+    Coordinate base = create();
+    return getCoordinatesNear(count, range, base);
+  }
+
+  static List<Coordinate> getCoordinatesNear(int count, double range, Coordinate base) {
     Random random = new Random(42);
     List<Coordinate> coordinates = new ArrayList<>(count);
-    Coordinate base = create();
     for (int i = 0; i < count; i++) {
       Coordinate coordinate = createNearbyCoordinate(base, random, range);
       coordinates.add(coordinate);

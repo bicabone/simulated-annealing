@@ -2,6 +2,7 @@ package com.bi.model.location;
 
 import org.junit.jupiter.api.Test;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,12 @@ public class StopTest {
 
   public static List<Stop> createList(int count) {
     List<Coordinate> list = CoordinateTest.createList(count);
-    List<Stop> stops = new ArrayList<>(count);
+    return createStops(list);
+  }
+
+  @Nonnull
+  private static List<Stop> createStops(List<Coordinate> list) {
+    List<Stop> stops = new ArrayList<>(list.size());
     for (int i = 0; i < list.size(); i++) {
       Coordinate coordinate = list.get(i);
       Stop stop =
@@ -37,5 +43,10 @@ public class StopTest {
       stops.add(stop);
     }
     return stops;
+  }
+
+  public static List<Stop> createStopsNear(int count, double range, Coordinate coordinate) {
+    List<Coordinate> coords = CoordinateTest.getCoordinatesNear(count, range, coordinate);
+    return createStops(coords);
   }
 }
