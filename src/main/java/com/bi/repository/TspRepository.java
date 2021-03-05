@@ -25,28 +25,21 @@ public class TspRepository {
   }
 
   public List<TravellingSalesmanProblem> getAll() {
-    Query query = new Query();
-    query
-            .addCriteria(Criteria.where("complete").is(true))
-            .with(Sort.by(Sort.Direction.DESC, "id"))
-            .fields()
-            .exclude("problem")
-            .exclude("solution")
-            .exclude("history");
-    return mongo.find(query, TravellingSalesmanProblem.class);
+    return mongo.find(getQuery(), TravellingSalesmanProblem.class);
   }
 
   public List<TravellingSalesmanProblem> get(int page, int size) {
-    Query query = new Query();
-    query
-        .addCriteria(Criteria.where("complete").is(true))
-        .with(Sort.by(Sort.Direction.DESC, "id"))
-        .skip((page - 1) * size)
-        .limit(size)
-        .fields()
-        .exclude("problem")
-        .exclude("solution")
-        .exclude("history");
+    Query query = getQuery();
+    query.skip((page - 1) * size);
+    query.limit(size);
     return mongo.find(query, TravellingSalesmanProblem.class);
+  }
+
+  private Query getQuery() {
+    Query query = new Query();
+    query.addCriteria(Criteria.where("complete").is(true));
+    query.with(Sort.by(Sort.Direction.DESC, "id"));
+    query.fields().exclude("problem").exclude("solution").exclude("history");
+    return query;
   }
 }
