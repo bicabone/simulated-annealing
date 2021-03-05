@@ -41,7 +41,11 @@ public abstract class AbstractTspService {
   TravellingSalesmanProblem createTsp(TspProblem problem, ParameterMap parameterMap) {
     getDefaultParameters().forEach(parameterMap::putIfAbsent);
     TravellingSalesmanProblem tsp =
-        TravellingSalesmanProblem.builder().parameterMap(parameterMap).problem(problem).build();
+        TravellingSalesmanProblem.builder()
+            .name(problem.getName())
+            .parameterMap(parameterMap)
+            .problem(problem)
+            .build();
     return repository.save(tsp);
   }
 
