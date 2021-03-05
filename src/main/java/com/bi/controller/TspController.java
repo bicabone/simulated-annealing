@@ -2,7 +2,6 @@ package com.bi.controller;
 
 import com.bi.model.tsp.TravellingSalesmanProblem;
 import com.bi.repository.TspRepository;
-import com.bi.service.HaversineTspService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,6 @@ import java.util.List;
 @RequestMapping("/api/v1/tsp")
 public class TspController {
 
-  private final HaversineTspService tspService;
   private final TspRepository tspRepository;
 
   @GetMapping("/{id}")

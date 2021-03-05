@@ -4,13 +4,10 @@ import com.bi.model.annealing.ParameterMap;
 import com.bi.model.annealing.TspParameter;
 import com.bi.model.tsp.TravellingSalesmanProblem;
 import com.bi.model.tsp.TspProblem;
-import com.bi.repository.TspRepository;
 import com.bi.service.HaversineTspService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -20,7 +17,6 @@ import java.util.List;
 public class HaversineTspController {
 
   private final HaversineTspService tspService;
-  private final TspRepository tspRepository;
 
   @PostMapping("/solve")
   public String post(
@@ -37,15 +33,5 @@ public class HaversineTspController {
             .build();
     TravellingSalesmanProblem solve = tspService.solve(problem, parameterMap);
     return solve.getId();
-  }
-
-  @GetMapping("/{id}")
-  public TravellingSalesmanProblem get(@PathVariable String id) {
-    return tspRepository.get(id);
-  }
-
-  @GetMapping("page/{page}/{size}")
-  public List<TravellingSalesmanProblem> get(@PathVariable int page, @PathVariable int size) {
-    return tspRepository.get(page, size);
   }
 }
