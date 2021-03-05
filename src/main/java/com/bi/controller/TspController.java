@@ -19,16 +19,19 @@ public class TspController {
 
   @GetMapping("/{id}")
   public TravellingSalesmanProblem get(@PathVariable String id) {
+    log.info("Get ID {}", id);
     return tspRepository.get(id);
   }
 
   @GetMapping("page/{page}/{size}")
   public List<TravellingSalesmanProblem> get(@PathVariable int page, @PathVariable int size) {
+    log.info("Get page {}/{}", page, size);
     return tspRepository.get(page, size);
   }
 
   @GetMapping
   public List<TravellingSalesmanProblem> get() {
+    log.info("Get all");
     return tspRepository.getAll();
   }
 }
