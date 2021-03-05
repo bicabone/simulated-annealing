@@ -24,6 +24,18 @@ public class TspRepository {
     return mongo.findById(id, TravellingSalesmanProblem.class);
   }
 
+  public List<TravellingSalesmanProblem> getAll() {
+    Query query = new Query();
+    query
+            .addCriteria(Criteria.where("complete").is(true))
+            .with(Sort.by(Sort.Direction.DESC, "id"))
+            .fields()
+            .exclude("problem")
+            .exclude("solution")
+            .exclude("history");
+    return mongo.find(query, TravellingSalesmanProblem.class);
+  }
+
   public List<TravellingSalesmanProblem> get(int page, int size) {
     Query query = new Query();
     query

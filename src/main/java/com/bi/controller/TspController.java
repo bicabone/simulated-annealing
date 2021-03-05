@@ -26,4 +26,9 @@ public class TspController {
   public List<TravellingSalesmanProblem> get(@PathVariable int page, @PathVariable int size) {
     return tspRepository.get(page, size);
   }
+
+  @GetMapping
+  public List<TravellingSalesmanProblem> get() {
+    return tspRepository.getAll();
+  }
 }
