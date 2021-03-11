@@ -16,7 +16,6 @@ import java.util.stream.Stream;
 import static com.bi.model.annealing.TspParameter.MAX_ITERATION_COUNT;
 import static com.bi.model.annealing.TspParameter.SEARCH_STRENGTH;
 
-/** TODO We need to introduce the probability of accepting a solution */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class NaiveAnnealingSystem extends SimulatedAnnealingSystem {
